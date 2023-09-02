@@ -24,6 +24,9 @@ dependencies:
   flutter_svg: ^1.1.0
   riverpod:
   flutter_riverpod:
+  introduction_screen: ^3.1.11
+  animated_notch_bottom_bar: ^1.0.0
+  fluttermoji: ^1.0.1
 
 dev_dependencies:
   flutter_test:
