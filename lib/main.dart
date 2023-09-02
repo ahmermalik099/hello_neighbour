@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hello_neighbour/screens/auth/login.dart';
+import 'package:hello_neighbour/screens/auth/register.dart';
+import 'package:hello_neighbour/screens/chat/chat.dart';
+import 'package:hello_neighbour/screens/explore/explore.dart';
+import 'package:hello_neighbour/screens/home/home.dart';
+import 'package:hello_neighbour/screens/onboard/onboard.dart';
+import 'package:hello_neighbour/screens/user/user_profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,53 +20,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context)=> OnboardScreen(),
+        '/register': (context)=> RegisterScreen(),
+        '/login': (context)=> LoginScreen(),
+        '/home': (context)=> HomeScreen(),
+        '/userProfile':(context) => UserProfileScreen(),
+        '/chat':(context) => ChatScreen(),
+        '/explore':(context) => ExploreScreen(),
+      },      
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(target: LatLng(33.7077, 73.0498), zoom: 15),
-        myLocationEnabled: true,
-        tiltGesturesEnabled: false,
-        compassEnabled: true,
-        scrollGesturesEnabled: true,
-        zoomGesturesEnabled: true,
-        onMapCreated: (controller) {
-          // _controller = controller;
-        },
-    markers: {
-       Marker(
-        markerId: MarkerId('Sydney'),
-        position: LatLng(33.7077, 73.0498),
-        onTap: () {
-          const snackBar = SnackBar(
-            content: Text('Yay! A SnackBar!'),
-          );
-          
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-        },
-      )
-    }
-      ),
-
-
-    );
-  }
-}
