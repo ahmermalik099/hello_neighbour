@@ -25,8 +25,8 @@ class ShowcaseSliderCard extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 20,
-                        backgroundImage: AssetImage(
-                          'hi',
+                        backgroundImage: NetworkImage(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ23oc2pV9oHkDUQ8ol_h0n4YBSPIdD_STlrg&usqp=CAU',
                         ),
                       ),
                       Text(
@@ -70,7 +70,7 @@ class ShowcaseSliderCard extends StatelessWidget {
             offset: const Offset(20, 0),
             child: Align(
               alignment: Alignment.centerRight,
-              child: Image.asset(
+              child: Image.network(
                 width: width * 0.55,
                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ23oc2pV9oHkDUQ8ol_h0n4YBSPIdD_STlrg&usqp=CAU',
                 fit: BoxFit.cover,
