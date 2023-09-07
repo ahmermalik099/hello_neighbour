@@ -28,6 +28,9 @@ class ExploreScreen extends StatelessWidget {
               );
 
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              // open a dialog
+               
+              //  AlertDialog();
             },
           ),
         },
