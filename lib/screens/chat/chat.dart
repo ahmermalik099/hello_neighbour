@@ -28,7 +28,11 @@ class _ChatScreenState extends State<ChatScreen> {
         itemBuilder: (context, index) {
           return Column(
             children: [
-              ChatRow(message: messages[index], index: index),
+              GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context, '/chatting');
+                },
+                child: ChatRow(message: messages[index], index: index)),
               SizedBox(
                 height: 10,
               ),

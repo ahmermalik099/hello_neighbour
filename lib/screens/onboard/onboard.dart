@@ -22,7 +22,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   Widget _buildFullscreenImage() {
     return Image.asset(
-      'assets/fullscreen.jpg',
+      'assets/2.webp',
       fit: BoxFit.cover,
       height: double.infinity,
       width: double.infinity,
@@ -79,21 +79,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
           title: "Fractional shares",
           body:
           "Instead of having to buy an entire share, invest any amount you want.",
-          image: _buildImage('img1.jpg'),
+          image: _buildImage('1.webp'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Learn as you go",
           body:
           "Download the Stockpile app and master the market with our mini-lesson.",
-          image: _buildImage('img2.jpg'),
+          image: _buildImage('1.webp'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Kids and teens",
           body:
           "Kids and teens can track their stocks 24/7 and place trades that you approve.",
-          image: _buildImage('img3.jpg'),
+          image: _buildImage('1.webp'),
           decoration: pageDecoration,
         ),
         PageViewModel(
@@ -112,7 +112,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         PageViewModel(
           title: "Another title page",
           body: "Another beautiful body text for this example onboarding",
-          image: _buildImage('img2.jpg'),
+          image: _buildImage('1.webp'),
           footer: ElevatedButton(
             onPressed: () {
               introKey.currentState?.animateScroll(0);
@@ -150,7 +150,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             bodyAlignment: Alignment.bottomCenter,
             imageAlignment: Alignment.topCenter,
           ),
-          image: _buildImage('img1.jpg'),
+          image: _buildImage('1.webp'),
           reverse: true,
         ),
       ],

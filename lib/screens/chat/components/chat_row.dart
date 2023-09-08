@@ -7,60 +7,66 @@ class ChatRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-            key: UniqueKey(),
-            onDismissed: (direction) {
-              // use state management later to remove the item from the list
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Message dismissed'),
-                ),
-              );
-            },
-            background: Container(
-              color: Colors.red,
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(10),
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              child: const Icon(
-                Icons.delete,
-                color: Colors.white,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal:16.0),
-              child: Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    SizedBox(width: 20),
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundImage: AssetImage('assets/1.webp'),
-                      backgroundColor: Colors.transparent,
-                    ),
-                    SizedBox(width: 30),
-                    Column(
-                      children: [
-                        Text(
-                          'Suguro Geto',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(message),
-                      ],
-                    ),
-                    
-                  ],
-                ),
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal:16.0),
+      child: Dismissible(
+        key: UniqueKey(),
+        onDismissed: (direction) {
+          // use state management later to remove the item from the list
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Message dismissed'),
             ),
           );
+        },
+        background: Container(
+          color: Colors.red,
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(10),
+          child: const Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: LinearGradient(
+              transform: GradientRotation(1),
+              colors: [
+                Color(0xff19A9C1),
+                Color(0xff45BDC3),
+                Color(0xff19A9C1),
+                Color(0xff43C7CB),
+              ],
+            ),
+          ),
+          child: Row(
+            children: [
+              SizedBox(width: 20),
+              CircleAvatar(
+                radius: 25,
+                backgroundImage: AssetImage('assets/1.webp'),
+                backgroundColor: Colors.transparent,
+              ),
+              SizedBox(width: 30),
+              Column(
+                children: [
+                  Text(
+                    'Suguro Geto',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(message),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -40,8 +40,8 @@ class ShowcaseSlider extends StatelessWidget {
             );
           },
           itemCount: 2,
-          pagination: null,
-          control: const SwiperControl(),
+          pagination: const SwiperPagination(),
+          control: null,
         ),
       ),
     );

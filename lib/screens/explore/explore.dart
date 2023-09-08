@@ -1,8 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({super.key});
+class ExploreScreen extends StatefulWidget {
+  ExploreScreen({super.key});
+
+  @override
+  State<ExploreScreen> createState() => _ExploreScreenState();
+}
+
+class _ExploreScreenState extends State<ExploreScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    prepareMarkers();
+  }
+
+  void prepareMarkers() async {
+    markerbitmap = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(50, 50)),
+      "assets/1.webp",
+
+    );
+    markers.add(Marker(
+      //add start location marker
+      markerId: MarkerId(69.toString()),
+      position: LatLng(33.7077, 73.0498), //posi\ion of marker
+      infoWindow: InfoWindow(
+        //popup info
+        title: 'Starting Point ',
+        snippet: 'Start Marker',
+      ),
+      icon: markerbitmap, //Icon for Marker
+    ));
+
+    setState(() {
+      
+    });
+  }
+
+  late BitmapDescriptor markerbitmap;
+  Set<Marker> markers = Set();
 
   @override
   Widget build(BuildContext context) {
@@ -18,22 +56,7 @@ class ExploreScreen extends StatelessWidget {
         onMapCreated: (controller) {
           // _controller = controller;
         },
-        markers: {
-          Marker(
-            markerId: MarkerId('Sydney'),
-            position: LatLng(33.7077, 73.0498),
-            onTap: () {
-              const snackBar = SnackBar(
-                content: Text('Yay! A SnackBar!'),
-              );
-
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              // open a dialog
-               
-              //  AlertDialog();
-            },
-          ),
-        },
+        markers: markers
       ),
     );
   }

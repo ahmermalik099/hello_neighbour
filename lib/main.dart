@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hello_neighbour/screens/auth/login.dart';
 import 'package:hello_neighbour/screens/auth/register.dart';
 import 'package:hello_neighbour/screens/chat/chat.dart';
+import 'package:hello_neighbour/screens/chat/chatting.dart';
 import 'package:hello_neighbour/screens/explore/explore.dart';
 import 'package:hello_neighbour/screens/home/home.dart';
 import 'package:hello_neighbour/screens/onboard/onboard.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/home': (context)=> HomeScreen(),
         '/userProfile':(context) => UserProfileScreen(),
         '/chat':(context) => ChatScreen(),
+        '/chatting':(context) => ChattingScreen(),
         '/explore':(context) => ExploreScreen(),
       },      
     );
