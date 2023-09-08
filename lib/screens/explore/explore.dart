@@ -20,8 +20,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
     markerbitmap = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(50, 50)),
       "assets/1.webp",
-
     );
+
     markers.add(Marker(
       //add start location marker
       markerId: MarkerId(69.toString()),

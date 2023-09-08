@@ -21,12 +21,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
         useMaterial3: true,
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
-        '/': (context)=> OnboardingPage(),
+        '/onBoarding': (context)=> OnboardingPage(),
         '/register': (context)=> RegisterScreen(),
         '/login': (context)=> LoginScreen(),
         '/home': (context)=> HomeScreen(),
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         '/chat':(context) => ChatScreen(),
         '/chatting':(context) => ChattingScreen(),
         '/explore':(context) => ExploreScreen(),
-      },      
+      },
     );
   }
 }
