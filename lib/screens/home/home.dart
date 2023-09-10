@@ -17,10 +17,10 @@ class HomeScreen extends StatelessWidget {
               crossAxisCount: 2,
               shrinkWrap: true,
               children: [
-                HomeCard(name: 'Explore', image: '1.webp',route: 'explore'),
-                HomeCard(name: 'Chat', image: '2.webp', route: 'chat'),
-                HomeCard(name: 'Settings', image: '1.webp', route: 'userProfile'),
-                HomeCard(name: 'About App', image: '2.webp', route: 'onBoarding'),
+                HomeCard(name: 'Featured Content', image: '1.webp',route: ''),
+                HomeCard(name: 'News & Updates', image: '2.webp', route: ''),
+                HomeCard(name: 'Help and Support', image: '1.webp', route: ''), //help and FAQs
+                HomeCard(name: 'About App', image: '2.webp', route: ''),
               ],
             ),
           ]
