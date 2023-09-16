@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class ProfileImageCard extends StatelessWidget {
   const ProfileImageCard({super.key});
 
@@ -19,15 +20,21 @@ class ProfileImageCard extends StatelessWidget {
           'assets/2.webp',
           fit: BoxFit.cover,
         ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: (){}, icon: Icon(Icons.favorite_outline_rounded,size: 40,),color: Colors.white, ),
-              SizedBox(width: 20,),
-              IconButton(onPressed: (){}, icon: Icon(Icons.heart_broken_outlined,size: 40,),color: Colors.white, ),
-            ],
-          )
-      ]),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     IconButton(onPressed: (){
+          //       setState(() {
+          //         _iconColor=Colors.red;
+          //       });
+          //     },
+          //       icon: Icon(Icons.favorite_outline_rounded,size: 40,),color: _iconColor, ),
+          //     SizedBox(width: 20,),
+          //     IconButton(onPressed: (){}, icon: Icon(Icons.heart_broken_outlined,size: 40,),color: Colors.white, ),
+          //   ],
+          // )
+      ]
+      ),
     );
   }
 }

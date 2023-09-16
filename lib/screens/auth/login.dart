@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -36,14 +39,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 Center(
                   child: Image.asset(
                     'assets/1.webp',
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: 400,fit: BoxFit.cover,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.8,
+                    height: 400, fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.04),
                 TextFormField(
                   controller: emailController,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Email',
                     prefixIcon: Icon(Icons.email),
                     border: OutlineInputBorder(
@@ -58,7 +67,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.03),
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
@@ -78,7 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.03),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(200, 50),
@@ -88,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: isLoading
                       ? CircularProgressIndicator()
                       : const Text(
-                      'Login',
+                    'Login',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -116,17 +131,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     setState(() {
       isLoading = true;
     });
 
-    // Simulate a login request. Replace this with your actual login logic.
-    Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        isLoading = false;
-      });
-      Navigator.pushNamed(context, '/onBoarding');
+
+    User ? user =
+    await AuthService().emailLogin(
+        emailController.text, passwordController.text);
+    setState(() {
+      isLoading = false;
     });
+
+    if (user != null) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/checkScreen', (route) => false);
+    }
+    else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Login failed'),
+        ),
+      );
+    }
+
+    // Simulate a login request. Replace this with your actual login logic.
+
   }
 }

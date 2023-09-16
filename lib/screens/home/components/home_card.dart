@@ -40,7 +40,7 @@ class HomeCard extends StatelessWidget {
               Text(name,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 30,
+                    fontSize: 25,
                     color: Colors.white,
                   )),
             ],

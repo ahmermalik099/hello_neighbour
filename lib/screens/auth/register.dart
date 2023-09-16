@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hello_neighbour/services/auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -36,14 +38,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Center(
                   child: Image.asset(
                     'assets/1.webp',
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: 400,fit: BoxFit.cover,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.8,
+                    height: 400, fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.04),
                 TextFormField(
                   controller: emailController,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Email',
                     prefixIcon: Icon(Icons.email),
                     border: OutlineInputBorder(
@@ -58,7 +66,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.03),
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
@@ -78,7 +89,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                SizedBox(height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.03),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(200, 50),
@@ -116,16 +130,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _handleRegister() {
+  Future<void> _handleRegister() async {
     setState(() {
       isLoading = true;
     });
 
-    // Simulate a login request. Replace this with your actual login logic.
-    Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        isLoading = false;
-      });
+
+    User ? user =
+    await AuthService().registerUser(
+        emailController.text, passwordController.text);
+    setState(() {
+      isLoading = false;
     });
+
+    if (user != null) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/checkScreen', (route) => false);
+    }
+    else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Registration failed'),
+        ),
+      );
+    }
   }
 }

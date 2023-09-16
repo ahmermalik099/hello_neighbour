@@ -17,7 +17,7 @@ class ProfileSlider extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.cyanAccent.shade700,
         ),
-        height: height * 0.45,
+        height: height * 0.4,
         width: double.infinity,
         child: Swiper(
           autoplay: true,
