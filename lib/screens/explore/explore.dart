@@ -18,8 +18,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   void prepareMarkers() async {
     markerbitmap = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(50, 50)),
-      "assets/1.webp",
+      ImageConfiguration(size: Size(30, 30), ),
+      "assets/img5.jpg",
 
     );
     markers.add(Marker(
