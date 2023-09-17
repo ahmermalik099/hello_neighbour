@@ -6,10 +6,18 @@ import 'package:hello_neighbour/screens/chat/chatting.dart';
 import 'package:hello_neighbour/screens/explore/explore.dart';
 import 'package:hello_neighbour/screens/home/home.dart';
 import 'package:hello_neighbour/screens/onboard/onboard.dart';
+import 'package:hello_neighbour/screens/pre_app.dart';
 import 'package:hello_neighbour/screens/user/user_profile.dart';
 
-void main() {
-  runApp(const MyApp());
+import "package:firebase_core/firebase_core.dart";
+import "firebase_options.dart";
+
+Future <void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+   );
+   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,14 +27,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
         useMaterial3: true,
       ),
-      initialRoute: '/',
+      initialRoute: '/checkScreen',
       routes: {
-        '/': (context)=> OnboardingPage(),
+        '/checkScreen': (context)=> CheckScreen(), //check if user is logged in or not
+        '/onBoarding': (context)=> OnboardingPage(),
         '/register': (context)=> RegisterScreen(),
         '/login': (context)=> LoginScreen(),
         '/home': (context)=> HomeScreen(),
@@ -34,7 +44,7 @@ class MyApp extends StatelessWidget {
         '/chat':(context) => ChatScreen(),
         '/chatting':(context) => ChattingScreen(),
         '/explore':(context) => ExploreScreen(),
-      },      
+      },
     );
   }
 }

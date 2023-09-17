@@ -34,7 +34,9 @@ class CustomizeAvatar extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Spacer(),
-                    FluttermojiSaveWidget(),
+                    FluttermojiSaveWidget(
+
+                    ),
                   ],
                 ),
               ),
