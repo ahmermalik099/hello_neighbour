@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_neighbour/screens/user/components/profile_slider.dart';
+import 'package:hello_neighbour/services/auth.dart';
 import 'package:hello_neighbour/services/fire_store.dart';
 import 'package:hello_neighbour/services/storage.dart';
 
@@ -74,14 +75,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           } else if (!snapshot.hasData) {
             return Text('No data available');
           } else {
-            final data = snapshot.data;
-            bioController.text = data!['bio'];
-            ageController.text = data['age'];
-            cityController.text = data['city'];
-            img = data['pfp_url'];
-            String name = data['name'] ?? 'User Name' ;
-            String gender = data['gender'];
-            List<dynamic> images = data['images'] as List<dynamic>;
+            final data = snapshot.data!.data();
+            bioController.text = data?['bio'] ?? '';
+            ageController.text = data?['age'] ?? '';
+            cityController.text = data?['city'] ?? '';
+            img = data?['pfp_url'] ?? '';
+            String name = data?['name'] ?? 'User Name';
+            String gender = data?['gender'] ?? ''; // Default gender
+            List<dynamic> images =
+                data?['images']  ?? []; // Default empty list
+
             log(data.toString());
             log(images.length.toString());
 
@@ -161,7 +164,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                               size: 30,
                                             ),
                                             Text(
-                                              data['age'],
+                                              data?['age'] ?? '',
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.w500,
@@ -182,7 +185,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                               size: 30,
                                             ),
                                             Text(
-                                              data['city'],
+                                              data?['city'] ?? '',
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.w500,
@@ -225,9 +228,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return MyModal(ageController: ageController,
-                                      cityController: cityController,
-                                      gender:gender);
+                                      return MyModal(
+                                          ageController: ageController,
+                                          cityController: cityController,
+                                          gender: gender);
                                     },
                                   );
                                   // alert.(context);
@@ -240,7 +244,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               ),
                             ),
                     ),
-                    ProfileSlider(isEditing: _isEditing,images: images),
+                    ProfileSlider(isEditing: _isEditing, images: images),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -274,7 +278,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           color: _iconColorEww,
                         ),
                       ],
-                    )
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          AuthService().signOut();
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/checkScreen', (route) => false);
+                        },
+                        child: Text('Logout'))
                   ],
                 ),
               ],
@@ -297,7 +308,6 @@ class MyModal extends StatefulWidget {
 }
 
 class _MyModalState extends State<MyModal> {
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -338,8 +348,8 @@ class _MyModalState extends State<MyModal> {
       actions: [
         ElevatedButton(
           onPressed: () {
-            FirestoreService()
-                .mergeDetails(widget.ageController!.text, widget.cityController!.text, widget.gender!);
+            FirestoreService().mergeDetails(widget.ageController!.text,
+                widget.cityController!.text, widget.gender!);
             Navigator.of(context).pop();
           },
           child: Text('Save'),

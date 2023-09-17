@@ -7,7 +7,8 @@ import 'package:hello_neighbour/screens/user/components/profile_image_card.dart'
 import 'package:hello_neighbour/services/storage.dart';
 
 class ProfileSlider extends StatelessWidget {
-  const ProfileSlider({super.key, required this.isEditing, required this.images});
+  const ProfileSlider(
+      {super.key, required this.isEditing, required this.images});
   final List<dynamic> images;
   final bool isEditing;
   @override
@@ -26,7 +27,9 @@ class ProfileSlider extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return Stack(
               children: [
-                ProfileImageCard(image: images[index]),
+                images.length == 0
+                    ? Container()
+                    : ProfileImageCard(image: images[index]),
                 isEditing
                     ? Align(
                         alignment: Alignment.center,
@@ -43,7 +46,7 @@ class ProfileSlider extends StatelessWidget {
               ],
             );
           },
-          itemCount:images.length,
+          itemCount: images.length == 0 ? 1 : images.length,
           pagination: const SwiperPagination(),
           control: null,
         ),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_neighbour/services/auth.dart';
+import 'package:hello_neighbour/services/fire_store.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -126,6 +127,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       User? user = await AuthService()
           .registerUser(emailController.text, passwordController.text);
+
+      await FirestoreService().createUser(emailController.text);
 
       if (user != null) {
         Navigator.pushNamedAndRemoveUntil(
