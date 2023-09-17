@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 // import 'auth.dart';
@@ -8,46 +9,72 @@ import 'dart:io' as i;
 // import 'firestore.dart';
 import 'dart:developer' as d;
 
+import 'package:hello_neighbour/services/auth.dart';
+import 'package:hello_neighbour/services/fire_store.dart';
+import 'package:uuid/uuid.dart';
 
-
-class StorageService{
-
+class StorageService {
   PlatformFile? pickedFile;
 
   String? img;
-  Future<String?> selectFile() async{
-    try{
+  Future<String?> selectFile() async {
+    try {
       d.log('selectfile function');
-      final result = await FilePicker.platform.pickFiles(type: FileType.image,);
-      if(result == null) return "";
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
+      if (result == null) return "";
 
       pickedFile = result.files.first;
 
       final file = i.File(pickedFile!.path!);
-      // final path = 'pfp/${AuthService().user?.uid}';
-      // final ref = FirebaseStorage.instance.ref().child(path);
-      //await ref.putFile(file); //upload to firebase storage
+      final path = 'pfp/${AuthService().user?.uid}';
+      final ref = FirebaseStorage.instance.ref().child(path);
+      await ref.putFile(file); //upload to firebase storage
 
-      // img = await ref.getDownloadURL(); //retrieve that image's url
-      // d.log(img!);
-      // await AuthService().user?.updatePhotoURL(img!); // set users pfp
-      // await FirestoreService().addPFP(img!); // store in user document
-      //return img;
-      return file.path;
-    }
-    catch (e){
+      img = await ref.getDownloadURL(); //retrieve that image's url
+      d.log(img!);
+      await AuthService().user?.updatePhotoURL(img!); // set users pfp
+      await FirestoreService().addPFP(img!); // store in user document
+      return img;
+    } catch (e) {
       d.log(e.toString());
     }
     return "";
   }
 
-  Future<String> getImage() async{
+  Future<List<String>> selectFiles() async {
+    try {
+      d.log('selectFiles function');
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: true, // Allow selecting multiple images
+      );
 
-    //also upload from here
-    // final path = 'pfp/${AuthService().user?.uid}';
-    // final ref = FirebaseStorage.instance.ref().child(path);
-    // String x = await ref.getDownloadURL();
-    // return x;
-    return '';
+      if (result == null) return [];
+
+      List<String> imageUrls = [];
+
+      for (var file in result.files) {
+        final f = i.File(file.path!);
+        final path =
+            'showcase/${AuthService().user?.uid}/${Uuid().v4()}'; // Generate a unique path for each image
+        final ref = FirebaseStorage.instance.ref().child(path);
+        await ref.putFile(f); // Upload each image to Firebase Storage
+
+        String imgUrl = await ref.getDownloadURL(); // Retrieve the image URL
+        d.log(imgUrl);
+
+        // Add the image URL to the list
+        imageUrls.add(imgUrl);
+      }
+
+      FirestoreService().addShowcaseImages(imageUrls);
+
+      return imageUrls;
+    } catch (e) {
+      d.log(e.toString());
+      return [];
+    }
   }
 }

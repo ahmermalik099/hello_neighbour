@@ -4,10 +4,12 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_neighbour/screens/home/components/showcase_card.dart';
 import 'package:hello_neighbour/screens/user/components/profile_image_card.dart';
+import 'package:hello_neighbour/services/storage.dart';
 
 class ProfileSlider extends StatelessWidget {
-  const ProfileSlider({super.key});
-
+  const ProfileSlider({super.key, required this.isEditing, required this.images});
+  final List<dynamic> images;
+  final bool isEditing;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -20,12 +22,28 @@ class ProfileSlider extends StatelessWidget {
         height: height * 0.4,
         width: double.infinity,
         child: Swiper(
-          autoplay: true,
+          autoplay: isEditing ? false : true,
           itemBuilder: (BuildContext context, int index) {
-            return ProfileImageCard(
+            return Stack(
+              children: [
+                ProfileImageCard(image: images[index]),
+                isEditing
+                    ? Align(
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            StorageService().selectFiles();
+                          },
+                          child: Text(
+                            'Upload new Images',
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ],
             );
           },
-          itemCount: 2,
+          itemCount:images.length,
           pagination: const SwiperPagination(),
           control: null,
         ),

@@ -30,7 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'Hello Neighbour',
                     style: TextStyle(
                       color: Colors.cyanAccent.shade700,
-                      fontSize: 45,
+                      fontSize: 40,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -38,17 +38,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Center(
                   child: Image.asset(
                     'assets/1.webp',
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.8,
-                    height: 400, fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: 400,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.04),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                 TextFormField(
                   controller: emailController,
                   decoration: InputDecoration(
@@ -66,10 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.03),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
@@ -87,12 +79,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-
                 ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.03),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(200, 50),
@@ -102,13 +90,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: isLoading
                       ? CircularProgressIndicator()
                       : const Text(
-                    'Register',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                          'Register',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                 ),
                 SizedBox(height: 10),
                 Row(
@@ -135,24 +123,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
       isLoading = true;
     });
 
+    try {
+      User? user = await AuthService()
+          .registerUser(emailController.text, passwordController.text);
 
-    User ? user =
-    await AuthService().registerUser(
-        emailController.text, passwordController.text);
-    setState(() {
-      isLoading = false;
-    });
-
-    if (user != null) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/checkScreen', (route) => false);
-    }
-    else {
+      if (user != null) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/checkScreen', (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registration failed'),
+          ),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Registration failed'),
+          content: Text(e.toString()),
         ),
       );
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 }

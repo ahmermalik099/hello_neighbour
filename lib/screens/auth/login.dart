@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Hello Neighbour',
                     style: TextStyle(
                       color: Colors.cyanAccent.shade700,
-                      fontSize: 45,
+                      fontSize: 40,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -39,17 +39,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 Center(
                   child: Image.asset(
                     'assets/1.webp',
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.8,
-                    height: 400, fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: 400,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.04),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                 TextFormField(
                   controller: emailController,
                   decoration: InputDecoration(
@@ -67,10 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.03),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
@@ -88,12 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-
                 ),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.03),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(200, 50),
@@ -103,13 +91,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: isLoading
                       ? CircularProgressIndicator()
                       : const Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                 ),
                 SizedBox(height: 10),
                 Row(
@@ -136,27 +124,30 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
+    try {
+      User? user = await AuthService()
+          .emailLogin(emailController.text, passwordController.text);
 
-    User ? user =
-    await AuthService().emailLogin(
-        emailController.text, passwordController.text);
-    setState(() {
-      isLoading = false;
-    });
-
-    if (user != null) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/checkScreen', (route) => false);
-    }
-    else {
+      if (user != null) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/checkScreen', (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed'),
+          ),
+        );
+      }
+      
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login failed'),
+          content: Text(e.toString()),
         ),
       );
     }
-
-    // Simulate a login request. Replace this with your actual login logic.
-
+    setState(() {
+      isLoading = false;
+    });
   }
 }
