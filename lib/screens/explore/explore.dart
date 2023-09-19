@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -9,6 +10,7 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+
   @override
   void initState() {
     // TODO: implement initState
@@ -48,6 +50,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       body: GoogleMap(
         initialCameraPosition:
             CameraPosition(target: LatLng(33.7077, 73.0498), zoom: 15),
+            //CameraPosition(target: LatLng(Lat, Long), zoom: 15),
         myLocationEnabled: true,
         tiltGesturesEnabled: false,
         compassEnabled: true,

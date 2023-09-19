@@ -4,10 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 
 class FirestoreService {
   // create a document for the user
-  Future<void> createUser(String email) async {
+  Future<void> createUser(String email, String lat, String long, String userName) async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
     return await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'email': email,
+      'lat': lat,
+      'long': long,
+      'userName': userName,
     });
   }
   //merge bio
