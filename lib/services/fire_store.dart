@@ -57,4 +57,8 @@ class FirestoreService {
     return FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
     
   }
+
+  Future<List<dynamic>> getUsers(){
+    return FirebaseFirestore.instance.collection('users').get().then((value) => value.docs);
+  }
 }

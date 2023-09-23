@@ -87,7 +87,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
             log(data.toString());
             log(images.length.toString());
-
             // update the riverpod controller here
             return ListView(
               children: [

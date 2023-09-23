@@ -36,6 +36,7 @@ dependencies:
   firebase_storage: ^11.2.6
   geolocator:
   uuid: 
+  http: 
 
 dev_dependencies:
   flutter_test:

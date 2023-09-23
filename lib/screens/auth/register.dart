@@ -17,8 +17,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController userController = TextEditingController();
   final TextEditingController longController = TextEditingController();
   bool isLoading = false;
-  String lat='';
-  String long='';
+  String lat = '';
+  String long = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    longController.text = ' ';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,26 +113,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(200, 50),
-                    backgroundColor: Colors.cyanAccent.shade700,
-                  ),
-                  onPressed: (){
-                    getCurrentLocation().then((value){
-                      lat ='${value.latitude}';
-                      long ='${value.longitude}';
-                      print(lat);
-                      print(long);
-                    });
-                  },
-                  child: const Text(
-                    'Get Location',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+                TextFormField(
+                  controller: longController,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    hintText: 'Location',
+                    prefixIcon: Icon(Icons.location_on),
+                    suffix: ElevatedButton(
+                      onPressed: () {
+                        getCurrentLocation().then(
+                          (value) {
+                            lat = '${value.latitude}';
+                            long = '${value.longitude}';
+                            longController.text = '$lat, $long';
+                            print(lat);
+                            print(long);
+                          },
+                        );
+                      },
+                      child: Text('get location'),
+                    ),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(
+                        color: Colors.blueAccent.shade100,
+                        width: 2.0,
+                      ),
                     ),
                   ),
                 ),
@@ -139,13 +155,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: isLoading
                       ? CircularProgressIndicator()
                       : const Text(
-                    'Register',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                          'Register',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -175,7 +191,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       User? user = await AuthService()
           .registerUser(emailController.text, passwordController.text);
 
-      await FirestoreService().createUser(emailController.text, lat, long, userController.text);
+      await FirestoreService()
+          .createUser(emailController.text, lat, long, userController.text);
 
       if (user != null) {
         Navigator.pushNamedAndRemoveUntil(
@@ -200,22 +217,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
-
 Future<Position> getCurrentLocation() async {
-
-  bool serviceEnabled =await Geolocator.isLocationServiceEnabled();
+  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
     return Future.error('Location services are disabled.');
   }
 
   LocationPermission permission = await Geolocator.checkPermission();
-  if(permission == LocationPermission.deniedForever){
-    return Future.error('Location permissions are permantly denied, we cannot request permissions.');
+  if (permission == LocationPermission.deniedForever) {
+    return Future.error(
+        'Location permissions are permantly denied, we cannot request permissions.');
   }
-  if(permission == LocationPermission.denied){
+  if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
-    if(permission != LocationPermission.whileInUse && permission != LocationPermission.always){
-      return Future.error('Location permissions are denied (actual value: $permission).');
+    if (permission != LocationPermission.whileInUse &&
+        permission != LocationPermission.always) {
+      return Future.error(
+          'Location permissions are denied (actual value: $permission).');
     }
   }
 
