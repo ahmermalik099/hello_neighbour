@@ -58,7 +58,18 @@ class FirestoreService {
     
   }
 
-  Future<List<dynamic>> getUsers(){
-    return FirebaseFirestore.instance.collection('users').get().then((value) => value.docs);
+  Future<List<dynamic>> getUsers() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('users').get();
+
+    List<Map<String, dynamic>> usersList = [];
+
+    querySnapshot.docs.forEach((doc) {
+      Map<String, dynamic> userData = doc.data() as Map<String, dynamic>;
+      userData['uid'] = doc.id; // Add the UID to the map
+      usersList.add(userData);
+    });
+
+    return usersList;
   }
+
 }

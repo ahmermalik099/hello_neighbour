@@ -7,6 +7,7 @@ import 'package:hello_neighbour/screens/explore/explore.dart';
 import 'package:hello_neighbour/screens/home/home.dart';
 import 'package:hello_neighbour/screens/onboard/onboard.dart';
 import 'package:hello_neighbour/screens/pre_app.dart';
+import 'package:hello_neighbour/screens/user/user_details.dart';
 import 'package:hello_neighbour/screens/user/user_profile.dart';
 
 import "package:firebase_core/firebase_core.dart";
@@ -44,6 +45,8 @@ class MyApp extends StatelessWidget {
         '/chat':(context) => ChatScreen(),
         '/chatting':(context) => ChattingScreen(),
         '/explore':(context) => ExploreScreen(),
+        '/userDetails':(context) => UserDetailsScreen(),
+
       },
     );
   }

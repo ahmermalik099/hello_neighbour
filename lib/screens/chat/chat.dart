@@ -30,7 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
             children: [
               GestureDetector(
                 onTap: (){
-                  Navigator.pushNamed(context, '/chatting');
+                  Navigator.pushNamed(context, '/chatting',);
                 },
                 child: ChatRow(message: messages[index], index: index)),
               SizedBox(

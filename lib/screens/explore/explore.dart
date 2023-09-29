@@ -49,18 +49,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
       log(users.length.toString());
 
       log(element.toString());
-      var iconurl = element['pfp_url'] ??
-          "https://firebasestorage.googleapis.com/v0/b/flutterlogin-db068.appspot.com/o/pfp%2FqH46YSrLWJN4tbXBiE9WQa7L2of2?alt=media&token=1148adf5-b54e-4936-a48c-8680d87d7d15";
-      // var dataBytes;
-      // var request = await http.get(iconurl);
-      // var bytes = await request.bodyBytes;
-      final response = await HttpClient().getUrl(Uri.parse(iconurl));
-      final bytes = await response.close().then((response) =>
-          response.fold<Uint8List>(Uint8List(0),
-              (previous, current) => Uint8List.fromList(previous + current)));
 
       markerbitmap =
-          await BitmapDescriptor.fromBytes(bytes, size: const Size(52, 52));
+          await BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(size: Size(50, 50)),'assets/img5.jpg'
+          );
       // log(dataBytes.toString()  );
 
       markers.add(Marker(
@@ -74,7 +67,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             snippet: 'Click for details',
             onTap: () {
               // static profile screen
-              Navigator.pushNamed(context, '/chat');
+              Navigator.pushNamed(context, '/userDetails',arguments: element);
             }),
         icon: markerbitmap, //Icon for Marker
       ));
