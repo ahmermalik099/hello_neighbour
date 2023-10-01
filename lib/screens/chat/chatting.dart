@@ -97,7 +97,12 @@ class MessageStream extends StatelessWidget {
               );
             },
           );
-        } else {
+        } else if (!snapshot.hasData){
+          return Center(
+            child: Text('No messages yet'),
+          );
+        }
+        else {
           return Center(
             child: CircularProgressIndicator(),
           );

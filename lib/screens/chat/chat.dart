@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_neighbour/screens/chat/components/chat_row.dart';
@@ -51,8 +53,11 @@ class _ChatScreenState extends State<ChatScreen> {
                     GestureDetector(
                         onTap: () async {
                           List<dynamic> chatters=data['chatters'];
-                          var otherUSer = chatters.where((id) => id!=FirebaseAuth.instance.currentUser!.uid).toList();
-                          final user= await FirestoreService().getUser(otherUSer.first);
+                          log("chatters: ${chatters}");
+                          var otherUser = chatters.where((id) => id!=FirebaseAuth.instance.currentUser!.uid).toList();
+                          log('${otherUser}');
+                          final user= await FirestoreService().getUser(otherUser.first);
+                          // user is null
                           print(user);
                           final chatId=await FirestoreService().checkIfBothChattersExist(chatters);
                           user['chatId']=chatId;

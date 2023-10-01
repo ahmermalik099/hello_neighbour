@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'dart:developer';
 
 class FirestoreService {
   // create a document for the user
@@ -106,12 +106,12 @@ class FirestoreService {
         chatId = newChatDoc.id;
       }
 
-      print(chatters);
-      print(chatters.runtimeType);
-      print(chatId);
-      print(chatId.runtimeType);
-      print(lastMessage);
-      print(lastMessage.runtimeType);
+      log('$chatters');
+      log('$chatters.runtimeType');
+      log(chatId);
+      log('$runtimeType.runtimeType');
+      log(lastMessage);
+      log('$lastMessage.runtimeType');
       // Update the "chats" collectionnew msg
       final Map<String, dynamic> chatsData = {
         'chatters': chatters,
@@ -123,7 +123,7 @@ class FirestoreService {
       addMessageToChat(chatId, FirebaseAuth.instance.currentUser!.uid, lastMessage);
 
       // "chats" collection updated successfully
-      print('Chats collection updated successfully');
+      log('Chats collection updated successfully');
     } catch (e) {
       // Handle any errors
       print('Error updating chats collection: $e');
