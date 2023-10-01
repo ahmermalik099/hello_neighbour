@@ -13,13 +13,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  List<String> messages = [
-    'Message 1',
-    'Message 2',
-    'Message 3',
-    'Message 4',
-    'Message 5',
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +24,8 @@ class _ChatScreenState extends State<ChatScreen> {
       body: StreamBuilder(
         stream: FirestoreService().getChatsForUser(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          try{
+            if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator(); // Show a loading indicator while data is being fetched.
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -72,6 +67,10 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             );
           }
+          } catch (e){
+            log(e.toString());
+          }
+          return const CircularProgressIndicator();
         },
       ),
     );

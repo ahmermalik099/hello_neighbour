@@ -172,6 +172,7 @@ class FirestoreService {
       // Query the "chats" collection to find documents where the "chatters" array contains the user's UID
        var querySnapshot = chatsCollection
           .where('chatters', arrayContains: FirebaseAuth.instance.currentUser!.uid)
+          .orderBy('last_update', descending: false)
           .snapshots();
 
       // Return the list of chat documents
@@ -195,7 +196,7 @@ class FirestoreService {
       chatDocRef.collection('messages');
 
       // Query the "messages" subcollection to get all documents
-      final querySnapshot =  messagesCollection.snapshots();
+      final querySnapshot =  messagesCollection.orderBy('created_at', descending: false).snapshots();
 
       // Return the list of message documents
       return querySnapshot;
