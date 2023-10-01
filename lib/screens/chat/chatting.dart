@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_neighbour/screens/chat/components/chat_row.dart';
 import 'package:hello_neighbour/screens/chat/components/msg.dart';
+import 'package:hello_neighbour/services/fire_store.dart';
 
 class ChattingScreen extends StatelessWidget {
   const ChattingScreen({super.key});
@@ -10,6 +12,8 @@ class ChattingScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     final user = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    String message = '';
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 33, 140, 176),
@@ -35,24 +39,7 @@ class ChattingScreen extends StatelessWidget {
           Container(
             height: height * 0.8,
             width: width,
-            child: Column(
-              children: [
-                 SizedBox(
-                  height: 10,
-                ),
-                MyMessage(
-                  isUser: true,
-                  msg: "YOLOOOOOOo",
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                MyMessage(
-                  isUser: false,
-                  msg: "COooking maybe potentially probably",
-                ),
-              ],
-            ),
+            child: MessageStream(chatId: user['chatId'],),
           ),
           Container(
             height: height * 0.1,
@@ -62,6 +49,9 @@ class ChattingScreen extends StatelessWidget {
                 Container(
                   width: width * 0.8,
                   child: TextField(
+                    onChanged: (value) {
+                      message = value;
+                    },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Message',
@@ -71,7 +61,9 @@ class ChattingScreen extends StatelessWidget {
                 Container(
                   width: width * 0.2,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      FirestoreService().updateChatsCollection([user["uid"],FirebaseAuth.instance.currentUser!.uid],user['chatId'], message);
+                    },
                     icon: Icon(Icons.send),
                   ),
                 ),
@@ -83,3 +75,51 @@ class ChattingScreen extends StatelessWidget {
     );
   }
 }
+
+
+class MessageStream extends StatelessWidget {
+  const MessageStream({Key? key, required this.chatId}) : super(key: key);
+
+  final String chatId;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirestoreService().getMessagesForChat(chatId),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          final messagesDocs = snapshot.data!.docs;
+          return ListView.builder(
+            itemCount: messagesDocs.length,
+            itemBuilder: (context, index) {
+              return MyMessage(
+                isUser: messagesDocs[index]['created_by'] == FirebaseAuth.instance.currentUser!.uid,
+                msg: messagesDocs[index]['message'],
+              );
+            },
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+}
+
+
+
+// SizedBox(
+// height: 10,
+// ),
+// MyMessage(
+// isUser: true,
+// msg: "YOLOOOOOOo",
+// ),
+// SizedBox(
+// height: 10,
+// ),
+// MyMessage(
+// isUser: false,
+// msg: "COooking maybe potentially probably",
+// ),

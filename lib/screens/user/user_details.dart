@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_neighbour/screens/user/components/profile_slider.dart';
 import 'package:hello_neighbour/services/auth.dart';
@@ -36,7 +37,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     img = user["img"];
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () async {
+          String chatId= await FirestoreService().checkIfBothChattersExist([user["uid"],FirebaseAuth.instance.currentUser!.uid]);
+          user['chatId']=chatId;
           Navigator.pushNamed(context, '/chatting', arguments: user);
         },
         child: Icon(Icons.message),

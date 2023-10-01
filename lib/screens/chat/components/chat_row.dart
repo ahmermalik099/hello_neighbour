@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ChatRow extends StatelessWidget {
-  const ChatRow({super.key, required this.index, required this.message});
-  final int index;
+  const ChatRow({super.key, required this.message});
   final String message;
 
   @override

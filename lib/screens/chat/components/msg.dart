@@ -13,6 +13,7 @@ class MyMessage extends StatelessWidget {
           isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Container(
+          margin: EdgeInsets.only(top: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
