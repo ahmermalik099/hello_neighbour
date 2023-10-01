@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MyMessage extends StatelessWidget {
-  const MyMessage({super.key, required this.isUser, required this.msg});
+  const MyMessage(
+      {super.key, required this.isUser, required this.msg, required this.imgs});
   final bool isUser;
   final String msg;
+  final List<String> imgs;
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +19,15 @@ class MyMessage extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if(!isUser)
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage('assets/2.webp'),
-              ),
-              if(!isUser)
-              SizedBox(width: 5,),
+              if (!isUser)
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage(isUser ? imgs[0] : imgs[1])
+                ),
+              if (!isUser)
+                SizedBox(
+                  width: 5,
+                ),
               Container(
                 width: width * 0.55,
                 padding: const EdgeInsets.all(8.0),
@@ -40,13 +44,15 @@ class MyMessage extends StatelessWidget {
                       color: isUser ? Colors.white : Colors.black),
                 ),
               ),
-              if(isUser)
-              SizedBox(width: 5,),
-              if(isUser)
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage('assets/2.webp'),
-              ),
+              if (isUser)
+                SizedBox(
+                  width: 5,
+                ),
+              if (isUser)
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage: AssetImage('assets/2.webp'),
+                ),
             ],
           ),
         ),

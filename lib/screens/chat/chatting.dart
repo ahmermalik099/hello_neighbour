@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_neighbour/screens/chat/components/chat_row.dart';
 import 'package:hello_neighbour/screens/chat/components/msg.dart';
@@ -14,7 +15,6 @@ class ChattingScreen extends StatefulWidget {
 }
 
 class _ChattingScreenState extends State<ChattingScreen> {
-
   final TextEditingController messageController = TextEditingController();
   String chatId = '';
   @override
@@ -23,9 +23,11 @@ class _ChattingScreenState extends State<ChattingScreen> {
     double height = MediaQuery.of(context).size.height;
     final user =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    if(chatId == ''){
+    if (chatId == '') {
       chatId = user['chatId'];
     }
+    final String name = user['userName'];
+
     log(chatId);
     return Scaffold(
       appBar: AppBar(
@@ -35,13 +37,16 @@ class _ChattingScreenState extends State<ChattingScreen> {
           children: [
             CircleAvatar(
               radius: 15,
-              backgroundImage: AssetImage('assets/1.webp'),
+              backgroundImage: NetworkImage(
+                user['pfp_url'] ??
+                    'https://images.immediate.co.uk/production/volatile/sites/3/2023/08/fdee6eacd43859584486e44228df60491637670269main-Cropped-8330369.jpg?resize=768,574',
+              ),
             ),
             SizedBox(
               width: 5,
             ),
-            const Text(
-              'Father of this nation',
+            Text(
+              name,
               style: TextStyle(color: Colors.white),
             )
           ],
@@ -50,15 +55,19 @@ class _ChattingScreenState extends State<ChattingScreen> {
       body: Column(
         children: [
           Container(
-            height: height * 0.8,
+            height: height * 0.75,
             width: width,
             child: MessageStream(
               chatId: chatId,
+              imgs: [
+                FirebaseAuth.instance.currentUser!.photoURL ??
+                    'https://www.animesenpai.net/wp-content/uploads/2023/08/dfdc2d53-d37f-425d-8e1a-2594e9505577-1024x513.jpg.webp',
+                user['pfp_url'] ??
+                    'https://images.immediate.co.uk/production/volatile/sites/3/2023/08/fdee6eacd43859584486e44228df60491637670269main-Cropped-8330369.jpg?resize=768,574'
+              ],
             ),
           ),
-          Container(
-            height: height * 0.1,
-            width: width,
+          Expanded(
             child: Row(
               children: [
                 Container(
@@ -79,9 +88,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
                           [user["uid"], FirebaseAuth.instance.currentUser!.uid],
                           chatId,
                           messageController.text);
-
+          
                       messageController.clear();
-
+          
                       if (user['chatId'] == '') {
                         String cId = await FirestoreService()
                             .checkIfBothChattersExist([
@@ -106,9 +115,11 @@ class _ChattingScreenState extends State<ChattingScreen> {
 }
 
 class MessageStream extends StatelessWidget {
-  const MessageStream({Key? key, required this.chatId}) : super(key: key);
+  const MessageStream({Key? key, required this.chatId, required this.imgs})
+      : super(key: key);
 
   final String chatId;
+  final List<String> imgs;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -120,10 +131,10 @@ class MessageStream extends StatelessWidget {
             itemCount: messagesDocs.length,
             itemBuilder: (context, index) {
               return MyMessage(
-                isUser: messagesDocs[index]['created_by'] ==
-                    FirebaseAuth.instance.currentUser!.uid,
-                msg: messagesDocs[index]['message'],
-              );
+                  isUser: messagesDocs[index]['created_by'] ==
+                      FirebaseAuth.instance.currentUser!.uid,
+                  msg: messagesDocs[index]['message'],
+                  imgs: imgs);
             },
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {

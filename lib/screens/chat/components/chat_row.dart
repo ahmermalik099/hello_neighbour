@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ChatRow extends StatelessWidget {
-  const ChatRow({super.key, required this.message});
-  final String message;
+  const ChatRow({super.key, required this.message, required this.name, required this.img});
+  final String message, name, img;
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +46,14 @@ class ChatRow extends StatelessWidget {
               SizedBox(width: 20),
               CircleAvatar(
                 radius: 25,
-                backgroundImage: AssetImage('assets/1.webp'),
+                backgroundImage: NetworkImage(img),
                 backgroundColor: Colors.transparent,
               ),
               SizedBox(width: 30),
               Column(
                 children: [
                   Text(
-                    'Suguro Geto',
+                    name,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
