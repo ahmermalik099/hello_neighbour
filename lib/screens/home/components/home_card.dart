@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HomeCard extends StatelessWidget {
   String name = '';
@@ -33,7 +34,7 @@ class HomeCard extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Image.asset(
+              SvgPicture.asset(
                   'assets/$image',
                   height: MediaQuery.of(context).size.height * 0.2,
               ),

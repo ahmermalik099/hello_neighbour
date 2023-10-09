@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ShowcaseSliderCard extends StatelessWidget {
   const ShowcaseSliderCard({super.key});
@@ -29,7 +31,8 @@ class ShowcaseSliderCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'radcowboy',
+                      FirebaseAuth.instance.currentUser?.displayName ?? 'yee',
+                      //'radcowboy',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 16,
@@ -41,6 +44,7 @@ class ShowcaseSliderCard extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
+                    //Navigator.pushNamed(context, '/explore');
                     // Navigator.pushNamed(context, '/store');
                   },
                   child: Container(
@@ -69,9 +73,9 @@ class ShowcaseSliderCard extends StatelessWidget {
           offset: const Offset(20, 0),
           child: Align(
             alignment: Alignment.centerRight,
-            child: Image.asset(
+            child: SvgPicture.asset(
               width: width * 0.45,
-              'assets/2.webp',
+              'assets/handshake.svg',
               fit: BoxFit.cover,
             ),
           ),

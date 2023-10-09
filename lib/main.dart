@@ -5,6 +5,9 @@ import 'package:hello_neighbour/screens/chat/chat.dart';
 import 'package:hello_neighbour/screens/chat/chatting.dart';
 import 'package:hello_neighbour/screens/explore/explore.dart';
 import 'package:hello_neighbour/screens/home/home.dart';
+import 'package:hello_neighbour/screens/home/sub_items/help.dart';
+import 'package:hello_neighbour/screens/home/sub_items/news_updates.dart';
+import 'package:hello_neighbour/screens/home/sub_items/rating.dart';
 import 'package:hello_neighbour/screens/onboard/onboard.dart';
 import 'package:hello_neighbour/screens/pre_app.dart';
 import 'package:hello_neighbour/screens/user/user_details.dart';
@@ -46,6 +49,11 @@ class MyApp extends StatelessWidget {
         '/chatting':(context) => ChattingScreen(),
         '/explore':(context) => ExploreScreen(),
         '/userDetails':(context) => UserDetailsScreen(),
+
+        '/newsAndUpdates':(context) => NewsAndUpdatesScreen(),
+        '/customerSupport':(context) => CustomerSupportScreen(),
+        '/rating':(context) => ExampleScreen(),
+
 
       },
     );

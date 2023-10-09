@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../services/auth.dart';
 
@@ -37,11 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Center(
-                  child: Image.asset(
-                    'assets/1.webp',
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: 400,
-                    fit: BoxFit.cover,
+                  child:SvgPicture.asset(
+                    'assets/homes.svg',
+                    height: MediaQuery.of(context).size.height * 0.4,
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.04),

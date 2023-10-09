@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hello_neighbour/screens/home/components/home_card.dart';
 import 'package:hello_neighbour/screens/home/components/showcase_slider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,10 +18,11 @@ class HomeScreen extends StatelessWidget {
               crossAxisCount: 2,
               shrinkWrap: true,
               children: [
-                HomeCard(name: 'Featured Content', image: '1.webp',route: ''),
-                HomeCard(name: 'News & Updates', image: '2.webp', route: ''),
-                HomeCard(name: 'Help and Support', image: '1.webp', route: ''), //help and FAQs
-                HomeCard(name: 'About App', image: '2.webp', route: ''),
+                HomeCard(name: 'News & Updates', image: 'news.svg', route: 'newsAndUpdates'),
+                HomeCard(name: 'Help and Support', image: 'helpdesk.svg', route: 'customerSupport'), //help and FAQs
+                HomeCard(name: 'About App', image: 'manusingmobile.svg', route: 'onBoarding'),
+                HomeCard(name: 'Rate The App', image: 'rating.svg',route: 'rating'),
+
               ],
             ),
           ]
