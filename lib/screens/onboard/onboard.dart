@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hello_neighbour/screens/bottomNavBar/bottomNavBar.dart';
 import 'package:hello_neighbour/screens/home/home.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -31,7 +32,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   Widget _buildImage(String assetName, [double width = 350]) {
-    return Image.asset('assets/$assetName', width: width);
+    return SvgPicture.asset(
+      'assets/$assetName.svg',
+      height: MediaQuery.of(context).size.height * 0.4,
+    );
   }
 
 
@@ -59,7 +63,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(top: 16, right: 16),
-            child: _buildImage('flutter.png', 100),
+            //child: _buildImage('flutter.png', 100),
           ),
         ),
       ),
@@ -76,30 +80,30 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
       pages: [
         PageViewModel(
-          title: "Fractional shares",
+          title: "Welcome to Hello Neighbors - Your Neighborhood Connection!",
           body:
-          "Instead of having to buy an entire share, invest any amount you want.",
-          image: _buildImage('1.webp'),
+          "We're thrilled to have you join our growing community of neighbors who are passionate about staying connected, helping each other, and fostering a sense of belonging right where you live.",
+          image: _buildImage('welcome'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Learn as you go",
+          title: "What is Hello Neighbors?",
           body:
-          "Download the Stockpile app and master the market with our mini-lesson.",
-          image: _buildImage('1.webp'),
+          "Hello Neighbors is your one-stop destination for building stronger, more connected neighborhoods. We believe in the power of community, and our app is designed to help you: \n\n 1) Connect with your neighbors\n 2) Ask Questions From Neighbors \n 3) Get Help From Neighbors",
+          image: _buildImage('connections'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Kids and teens",
+          title: "Why Hello Neighbors?",
           body:
-          "Kids and teens can track their stocks 24/7 and place trades that you approve.",
-          image: _buildImage('1.webp'),
+          "Build Community: We're passionate about fostering strong, supportive communities where everyone feels valued and connected. \n Empower Neighbors: Hello Neighbors empowers you to make a positive impact. \n Stay Safe and Informed: We prioritize your safety and privacy. \n\n",
+          image: _buildImage('why'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Full Screen Page",
+          title: "Getting Started Is Easy:",
           body:
-          "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
+          " 1) Download Hello Neighbors and create your profile.\n 2) Connect with your neighbors and explore your local community.\n  3) Engage in conversations, share experiences, and enjoy a stronger neighborhood connection.",
           image: _buildFullscreenImage(),
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
@@ -110,24 +114,24 @@ class _OnboardingPageState extends State<OnboardingPage> {
           ),
         ),
         PageViewModel(
-          title: "Another title page",
-          body: "Another beautiful body text for this example onboarding",
-          image: _buildImage('1.webp'),
-          footer: ElevatedButton(
-            onPressed: () {
-              introKey.currentState?.animateScroll(0);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.lightBlue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-            child: const Text(
-              'FooButton',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+          title: "Edit Your Profile.",
+          body: "From the last icon on the bottom navigation bar, you can add or edit your Bio, city, age, gender, Profile Picture, and Additional Images for Display to personalize your profile and connect with your neighbors.",
+          image: _buildImage('user'),
+          // footer: ElevatedButton(
+          //   onPressed: () {
+          //     introKey.currentState?.animateScroll(0);
+          //   },
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: Colors.lightBlue,
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(8.0),
+          //     ),
+          //   ),
+          //   child: const Text(
+          //     'FooButton',
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          // ),
           decoration: pageDecoration.copyWith(
             bodyFlex: 6,
             imageFlex: 6,
@@ -135,22 +139,24 @@ class _OnboardingPageState extends State<OnboardingPage> {
           ),
         ),
         PageViewModel(
-          title: "Title of last page - reversed",
-          bodyWidget: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Click on ", style: bodyStyle),
-              Icon(Icons.edit),
-              Text(" to edit a post", style: bodyStyle),
-            ],
-          ),
+          image: _buildImage('bye'),
+          title: "Enjoy Your Neighborhood!",
+          body: "We hope you find these profile features helpful for making meaningful connections in your neighborhood. If you have any feedback or suggestions, we'd love to hear from you. Enjoy connecting with your neighbors!",
+         //  bodyWidget: const Row(
+         //    mainAxisAlignment: MainAxisAlignment.center,
+         //    // children: [
+         //    //   // Text("Click on ", style: bodyStyle),
+         //    //   // Icon(Icons.edit),
+         //    //   // Text(" to edit a post", style: bodyStyle),
+         //    // ],
+         //  ),
           decoration: pageDecoration.copyWith(
             bodyFlex: 2,
             imageFlex: 4,
             bodyAlignment: Alignment.bottomCenter,
             imageAlignment: Alignment.topCenter,
           ),
-          image: _buildImage('1.webp'),
+
           reverse: true,
         ),
       ],
