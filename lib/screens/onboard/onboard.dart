@@ -22,12 +22,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   Widget _buildFullscreenImage() {
-    return Image.asset(
-      'assets/2.webp',
-      fit: BoxFit.cover,
-      height: double.infinity,
-      width: double.infinity,
-      alignment: Alignment.center,
+    return SvgPicture.asset(
+      'assets/gettingstarted.svg',
+      height: MediaQuery.of(context).size.height * 0.4,
     );
   }
 
@@ -90,7 +87,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           title: "What is Hello Neighbors?",
           body:
           "Hello Neighbors is your one-stop destination for building stronger, more connected neighborhoods. We believe in the power of community, and our app is designed to help you: \n\n 1) Connect with your neighbors\n 2) Ask Questions From Neighbors \n 3) Get Help From Neighbors",
-          image: _buildImage('connections'),
+          image: _buildImage('what'),
           decoration: pageDecoration,
         ),
         PageViewModel(
@@ -100,23 +97,31 @@ class _OnboardingPageState extends State<OnboardingPage> {
           image: _buildImage('why'),
           decoration: pageDecoration,
         ),
+
         PageViewModel(
           title: "Getting Started Is Easy:",
           body:
           " 1) Download Hello Neighbors and create your profile.\n 2) Connect with your neighbors and explore your local community.\n  3) Engage in conversations, share experiences, and enjoy a stronger neighborhood connection.",
-          image: _buildFullscreenImage(),
-          decoration: pageDecoration.copyWith(
-            contentMargin: const EdgeInsets.symmetric(horizontal: 16),
-            fullScreen: true,
-            bodyFlex: 2,
-            imageFlex: 3,
-            safeArea: 100,
-          ),
+          image: _buildImage('gettingstarted'),
+          decoration: pageDecoration,
         ),
+        // PageViewModel(
+        //   title: "Getting Started Is Easy:",
+        //   body:
+        //   " 1) Download Hello Neighbors and create your profile.\n 2) Connect with your neighbors and explore your local community.\n  3) Engage in conversations, share experiences, and enjoy a stronger neighborhood connection.",
+        //   image: _buildFullscreenImage(),
+        //   decoration: pageDecoration.copyWith(
+        //     contentMargin: const EdgeInsets.symmetric(horizontal: 16),
+        //     fullScreen: true,
+        //     bodyFlex: 2,
+        //     imageFlex: 3,
+        //     safeArea: 100,
+        //   ),
+        // ),
         PageViewModel(
           title: "Edit Your Profile.",
           body: "From the last icon on the bottom navigation bar, you can add or edit your Bio, city, age, gender, Profile Picture, and Additional Images for Display to personalize your profile and connect with your neighbors.",
-          image: _buildImage('user'),
+          image: _buildImage('profile'),
           // footer: ElevatedButton(
           //   onPressed: () {
           //     introKey.currentState?.animateScroll(0);
@@ -139,7 +144,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           ),
         ),
         PageViewModel(
-          image: _buildImage('bye'),
+          image: _buildImage('enjoy'),
           title: "Enjoy Your Neighborhood!",
           body: "We hope you find these profile features helpful for making meaningful connections in your neighborhood. If you have any feedback or suggestions, we'd love to hear from you. Enjoy connecting with your neighbors!",
          //  bodyWidget: const Row(

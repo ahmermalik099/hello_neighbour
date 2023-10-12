@@ -51,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 Center(
                   child: SvgPicture.asset(
-                    'assets/homes.svg',
+                    'assets/signup.svg',
                     height: MediaQuery.of(context).size.height * 0.4,
                   ),
                 ),

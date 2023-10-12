@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Center(
                   child:SvgPicture.asset(
-                    'assets/homes.svg',
+                    'assets/login.svg',
                     height: MediaQuery.of(context).size.height * 0.4,
                   ),
                 ),
