@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hello_neighbour/screens/auth/login.dart';
 import 'package:hello_neighbour/screens/auth/register.dart';
 import 'package:hello_neighbour/screens/chat/chat.dart';
@@ -30,32 +31,34 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
-        useMaterial3: true,
+    return ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
+          useMaterial3: true,
+        ),
+        initialRoute: '/checkScreen',
+        routes: {
+          '/checkScreen': (context)=> CheckScreen(), //check if user is logged in or not
+          '/onBoarding': (context)=> OnboardingPage(),
+          '/register': (context)=> RegisterScreen(),
+          '/login': (context)=> LoginScreen(),
+          '/home': (context)=> HomeScreen(),
+          '/userProfile':(context) => UserProfileScreen(),
+          '/chat':(context) => ChatScreen(),
+          '/chatting':(context) => ChattingScreen(),
+          '/explore':(context) => ExploreScreen(),
+          '/userDetails':(context) => UserDetailsScreen(),
+
+          '/newsAndUpdates':(context) => NewsAndUpdatesScreen(),
+          '/customerSupport':(context) => CustomerSupportScreen(),
+          '/rating':(context) => ExampleScreen(),
+
+
+        },
       ),
-      initialRoute: '/checkScreen',
-      routes: {
-        '/checkScreen': (context)=> CheckScreen(), //check if user is logged in or not
-        '/onBoarding': (context)=> OnboardingPage(),
-        '/register': (context)=> RegisterScreen(),
-        '/login': (context)=> LoginScreen(),
-        '/home': (context)=> HomeScreen(),
-        '/userProfile':(context) => UserProfileScreen(),
-        '/chat':(context) => ChatScreen(),
-        '/chatting':(context) => ChattingScreen(),
-        '/explore':(context) => ExploreScreen(),
-        '/userDetails':(context) => UserDetailsScreen(),
-
-        '/newsAndUpdates':(context) => NewsAndUpdatesScreen(),
-        '/customerSupport':(context) => CustomerSupportScreen(),
-        '/rating':(context) => ExampleScreen(),
-
-
-      },
     );
   }
 }

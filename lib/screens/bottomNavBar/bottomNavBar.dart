@@ -2,27 +2,23 @@
 
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hello_neighbour/screens/chat/chat.dart';
 import 'package:hello_neighbour/screens/explore/explore.dart';
 import 'package:hello_neighbour/screens/user/user_profile.dart';
 
+import '../../riverpod/provider.dart';
 import '../home/home.dart';
 
 
-class NavPage extends StatefulWidget {
-  const NavPage({Key? key}) : super(key: key);
-
-  @override
-  State<NavPage> createState() => _NavPageState();
-}
-
-class _NavPageState extends State<NavPage> {
+class NavPage extends ConsumerWidget {
+  NavPage({Key? key}) : super(key: key);
 
   /// Controller to handle PageView and also handles initial page
-  final _pageController = PageController(initialPage: 0);
+  // final _pageController = PageController(initialPage: 0);
 
   /// Controller to handle bottom nav bar and also handles initial page
-  final _controller = NotchBottomBarController(index: 0);
+
   int maxCount = 4;
 
   final List<Widget> bottomBarPages = [
@@ -33,7 +29,10 @@ class _NavPageState extends State<NavPage> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var _pageController = ref.watch(pageProvider);
+    final _controller = ref.watch(navItemProver);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: PageView(
@@ -47,7 +46,10 @@ class _NavPageState extends State<NavPage> {
       extendBody: true,
       bottomNavigationBar: (bottomBarPages.length<=maxCount) ? AnimatedNotchBottomBar(
           onTap: (index) {
-            _pageController.jumpToPage(index);
+            ref.read(navItemProver.notifier).updateIndex(index);
+            ref.read(pageProvider.notifier).updateIndex(index);
+          //  _pageController.jumpToPage(index);
+
           },
           notchBottomBarController: _controller,
           color: Colors.white,
@@ -111,9 +113,6 @@ class _NavPageState extends State<NavPage> {
     );
   }
 }
-
-
-
 
 class Page1 extends StatelessWidget {
   const Page1({Key? key}) : super(key: key);
