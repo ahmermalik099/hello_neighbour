@@ -26,14 +26,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
     prepareMarkers();
   }
 
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+Future<Uint8List> getBytesFromAsset(String path) async {
+    double pixelRatio = MediaQuery.of(context).devicePixelRatio;
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(
+        data.buffer.asUint8List(),
+        targetWidth: pixelRatio.round() * 30
+    );
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 
   void prepareMarkers() async {
@@ -50,10 +51,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
       log(element.toString());
 
-      markerbitmap =
-          await BitmapDescriptor.fromAssetImage(
-              ImageConfiguration(size: Size(50, 50)),'assets/img5.jpg'
-          );
+      
+final Uint8List markerIcon = await getBytesFromAsset('assets/img5.jpg');
+      log(markerIcon.toString());
+      // markerbitmap =
+      //     await BitmapDescriptor.fromAssetImage(
+      //         ImageConfiguration(size: Size(50, 50)),'assets/img5.jpg'
+      //     );
       // log(dataBytes.toString()  );
 
       markers.add(Marker(
@@ -69,8 +73,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
               // static profile screen
               Navigator.pushNamed(context, '/userDetails',arguments: element);
             }),
-        icon: markerbitmap, //Icon for Marker
+        icon: BitmapDescriptor.fromBytes(markerIcon), //Icon for Marker
       ));
+
+          setState(() {});
+
     });
 
     setState(() {});

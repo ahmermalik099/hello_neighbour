@@ -30,6 +30,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
 
     log(chatId);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 33, 140, 176),
         title: Row(
@@ -54,9 +55,8 @@ class _ChattingScreenState extends State<ChattingScreen> {
       ),
       body: Column(
         children: [
-          Container(
-            height: height * 0.75,
-            width: width,
+          Expanded(
+            flex: 4,
             child: MessageStream(
               chatId: chatId,
               imgs: [
@@ -68,6 +68,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
             ),
           ),
           Expanded(
+            flex: 1,
             child: Row(
               children: [
                 Container(
@@ -88,9 +89,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
                           [user["uid"], FirebaseAuth.instance.currentUser!.uid],
                           chatId,
                           messageController.text);
-          
+
                       messageController.clear();
-          
+
                       if (user['chatId'] == '') {
                         String cId = await FirestoreService()
                             .checkIfBothChattersExist([
@@ -126,8 +127,11 @@ class MessageStream extends StatelessWidget {
       stream: FirestoreService().getMessagesForChat(chatId),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
+          // i need the snaphots in reversed 
           final messagesDocs = snapshot.data!.docs;
+          
           return ListView.builder(
+            reverse: true,
             itemCount: messagesDocs.length,
             itemBuilder: (context, index) {
               return MyMessage(

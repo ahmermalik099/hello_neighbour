@@ -244,40 +244,41 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             ),
                     ),
                     ProfileSlider(isEditing: _isEditing, images: images),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _iconColorFav = Colors.cyan;
-                              _iconColorEww = Colors.black;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.favorite,
-                            size: 40,
-                          ),
-                          color: _iconColorFav,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _iconColorEww = Colors.cyan;
-                              _iconColorFav = Colors.black;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.heart_broken_outlined,
-                            size: 40,
-                          ),
-                          color: _iconColorEww,
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     IconButton(
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           _iconColorFav = Colors.cyan;
+                    //           _iconColorEww = Colors.black;
+                    //         });
+                    //       },
+                    //       icon: Icon(
+                    //         Icons.favorite,
+                    //         size: 40,
+                    //       ),
+                    //       color: _iconColorFav,
+                    //     ),
+                    //     SizedBox(
+                    //       width: 20,
+                    //     ),
+                    //     IconButton(
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           _iconColorEww = Colors.cyan;
+                    //           _iconColorFav = Colors.black;
+                    //         });
+                    //       },
+                    //       icon: Icon(
+                    //         Icons.heart_broken_outlined,
+                    //         size: 40,
+                    //       ),
+                    //       color: _iconColorEww,
+                    //     ),
+                    //   ],
+                    // ),
+                    
                     ElevatedButton(
                         onPressed: () {
                           AuthService().signOut();

@@ -66,7 +66,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       backgroundColor: Colors.grey,
                       backgroundImage: img != null
                           ? NetworkImage(img!)
-                          : AssetImage('assets/img5.jpg')
+                          : AssetImage('assets/img5.jpg') 
                       as ImageProvider,
                       radius: 80,
                     ),
@@ -177,7 +177,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   ],
                 )
               ),
-              ProfileSlider(isEditing: _isEditing, images: ['assets/img5.jpg']),
+              ProfileSlider(isEditing: _isEditing, images: ['https://fictionhorizon.com/wp-content/uploads/2023/08/Genjaku.jpg']),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

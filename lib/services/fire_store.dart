@@ -196,7 +196,7 @@ class FirestoreService {
       chatDocRef.collection('messages');
 
       // Query the "messages" subcollection to get all documents
-      final querySnapshot =  messagesCollection.orderBy('created_at', descending: false).snapshots();
+      final querySnapshot =  messagesCollection.orderBy('created_at', descending: true).snapshots();
 
       // Return the list of message documents
       return querySnapshot;

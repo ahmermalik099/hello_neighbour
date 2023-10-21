@@ -21,8 +21,6 @@ class HomeCard extends StatelessWidget {
           Navigator.pushNamed(context, '/$route');
         },
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.3,
-          width: MediaQuery.of(context).size.width * 0.4,
           decoration: BoxDecoration(
             color: Colors.cyanAccent.shade700,
             borderRadius: BorderRadius.circular(10),
@@ -36,12 +34,12 @@ class HomeCard extends StatelessWidget {
             children: [
               SvgPicture.asset(
                   'assets/$image',
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.15,
               ),
               Text(name,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 25,
+                    fontSize: 18,
                     color: Colors.white,
                   )),
             ],
