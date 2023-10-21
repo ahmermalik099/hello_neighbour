@@ -18,8 +18,8 @@ class HomeScreen extends StatelessWidget {
               crossAxisCount: 2,
               shrinkWrap: true,
               children: [
-                HomeCard(name: 'News & Updates', image: 'news.svg', route: 'newsAndUpdates'),
-                HomeCard(name: 'Help and Support', image: 'helpdesk.svg', route: 'customerSupport'), //help and FAQs
+                HomeCard(name: 'Updates', image: 'news.svg', route: 'newsAndUpdates'),
+                HomeCard(name: 'Support', image: 'helpdesk.svg', route: 'customerSupport'), //help and FAQs
                 HomeCard(name: 'About App', image: 'about.svg', route: 'onBoarding'),
                 HomeCard(name: 'Rate The App', image: 'rating.svg',route: 'rating'),
 

@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_neighbour/screens/user/components/profile_slider.dart';
 import 'package:hello_neighbour/services/auth.dart';
@@ -21,6 +22,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final TextEditingController ageController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   String? gender;
   String? img;
   Color _iconColorFav = Colors.black;
@@ -59,7 +61,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
         ],
         title: Text(
-          'User NAme',
+          FirebaseAuth.instance.currentUser!.email.toString() ??'username',
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         centerTitle: false,
@@ -79,6 +81,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             bioController.text = data?['bio'] ?? '';
             ageController.text = data?['age'] ?? '';
             cityController.text = data?['city'] ?? '';
+            userNameController.text = data?['userName'] ?? '';
             img = data?['pfp_url'] ?? '';
             String name = data?['name'] ?? 'User Name';
             String gender = data?['gender'] ?? ''; // Default gender
@@ -119,7 +122,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.only(top: 15),
                         child: Text(
-                          name,
+                          userNameController.text ?? 'User Name',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.cyanAccent.shade700),
@@ -244,39 +247,42 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             ),
                     ),
                     ProfileSlider(isEditing: _isEditing, images: images),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _iconColorFav = Colors.cyan;
-                              _iconColorEww = Colors.black;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.favorite,
-                            size: 40,
-                          ),
-                          color: _iconColorFav,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _iconColorEww = Colors.cyan;
-                              _iconColorFav = Colors.black;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.heart_broken_outlined,
-                            size: 40,
-                          ),
-                          color: _iconColorEww,
-                        ),
-                      ],
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     IconButton(
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           _iconColorFav = Colors.cyan;
+                    //           _iconColorEww = Colors.black;
+                    //         });
+                    //       },
+                    //       icon: Icon(
+                    //         Icons.favorite,
+                    //         size: 40,
+                    //       ),
+                    //       color: _iconColorFav,
+                    //     ),
+                    //     SizedBox(
+                    //       width: 20,
+                    //     ),
+                    //     IconButton(
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           _iconColorEww = Colors.cyan;
+                    //           _iconColorFav = Colors.black;
+                    //         });
+                    //       },
+                    //       icon: Icon(
+                    //         Icons.heart_broken_outlined,
+                    //         size: 40,
+                    //       ),
+                    //       color: _iconColorEww,
+                    //     ),
+                    //   ],
+                    // ),
+                    SizedBox(
+                      height: 20,
                     ),
                     ElevatedButton(
                         onPressed: () {

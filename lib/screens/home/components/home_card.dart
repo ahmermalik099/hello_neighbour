@@ -36,12 +36,12 @@ class HomeCard extends StatelessWidget {
             children: [
               SvgPicture.asset(
                   'assets/$image',
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.15,
               ),
               Text(name,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 25,
+                    fontSize: 22,
                     color: Colors.white,
                   )),
             ],

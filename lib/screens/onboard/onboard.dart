@@ -17,7 +17,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   void _onIntroEnd(context) {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const NavPage()),
+      MaterialPageRoute(builder: (_) => NavPage()),
     );
   }
 
@@ -31,16 +31,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget _buildImage(String assetName, [double width = 350]) {
     return SvgPicture.asset(
       'assets/$assetName.svg',
-      height: MediaQuery.of(context).size.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.3,
     );
   }
 
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
+    const bodyStyle = TextStyle(fontSize: 13.0);
     const pageDecoration = PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+      titleTextStyle: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,

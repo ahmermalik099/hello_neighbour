@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hello_neighbour/riverpod/provider.dart';
 
-class ShowcaseSliderCard extends StatelessWidget {
+class ShowcaseSliderCard extends ConsumerWidget {
   const ShowcaseSliderCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
@@ -44,8 +46,8 @@ class ShowcaseSliderCard extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    //Navigator.pushNamed(context, '/explore');
-                    // Navigator.pushNamed(context, '/store');
+                    ref.read(pageProvider.notifier).updateIndex(1);
+                    ref.read(navItemProver.notifier).updateIndex(1);
                   },
                   child: Container(
                     padding:

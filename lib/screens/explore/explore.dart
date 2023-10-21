@@ -19,6 +19,7 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  late GoogleMapController mapController;
   @override
   void initState() {
     // TODO: implement initState
@@ -51,9 +52,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
       log(element.toString());
 
       markerbitmap =
-          await BitmapDescriptor.fromAssetImage(
-              ImageConfiguration(size: Size(50, 50)),'assets/img5.jpg'
-          );
+      await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(50, 50)), 'assets/img5.jpg'
+      );
       // log(dataBytes.toString()  );
 
       markers.add(Marker(
@@ -62,12 +63,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
         position: LatLng(double.parse(element['lat'] ?? 33.7077),
             double.parse(element['long'] ?? 73.0498)), //posi\ion of marker
         infoWindow: InfoWindow(
-            //popup info
+          //popup info
             title: element['userName'] ?? '',
             snippet: 'Click for details',
             onTap: () {
               // static profile screen
-              Navigator.pushNamed(context, '/userDetails',arguments: element);
+              Navigator.pushNamed(context, '/userDetails', arguments: element);
             }),
         icon: markerbitmap, //Icon for Marker
       ));
@@ -82,19 +83,69 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-          initialCameraPosition:
-              CameraPosition(target: LatLng(33.7077, 73.0498), zoom: 15),
-          //CameraPosition(target: LatLng(Lat, Long), zoom: 15),
-          myLocationEnabled: true,
-          tiltGesturesEnabled: false,
-          compassEnabled: true,
-          scrollGesturesEnabled: true,
-          zoomGesturesEnabled: true,
-          onMapCreated: (controller) {
-            // _controller = controller;
-          },
-          markers: markers),
+      body: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition:
+            CameraPosition(target: LatLng(33.7077, 73.0498), zoom: 12),
+            myLocationEnabled: true,
+            tiltGesturesEnabled: false,
+            compassEnabled: true,
+            scrollGesturesEnabled: true,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: false,
+            onMapCreated: (controller) {
+              // Access the map controller here.
+              mapController = controller;
+            },
+            markers: markers,
+          ),
+          Positioned(
+            top: 16,
+            right: 16,
+            child: Column(
+              children: [
+                FloatingActionButton(
+                  heroTag: "zoomIn",
+                  onPressed: () async{
+                    var currentZoomLevel = await mapController.getZoomLevel();
+
+                    currentZoomLevel = currentZoomLevel + 1;
+                    mapController.animateCamera(
+                      CameraUpdate.newCameraPosition(
+                        CameraPosition(
+                          target: LatLng(33.7077, 73.0498),
+                          zoom: currentZoomLevel,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Icon(Icons.add),
+                ),
+                SizedBox(height: 8),
+                FloatingActionButton(
+                  heroTag: "zoomOut",
+                  onPressed: () async{
+                    var currentZoomLevel = await mapController.getZoomLevel();
+
+                    currentZoomLevel = currentZoomLevel - 1;
+                    mapController.animateCamera(
+                      CameraUpdate.newCameraPosition(
+                        CameraPosition(
+                          target: LatLng(33.7077, 73.0498),
+                          zoom: currentZoomLevel,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Icon(Icons.remove),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
+// Custom zoom buttons
