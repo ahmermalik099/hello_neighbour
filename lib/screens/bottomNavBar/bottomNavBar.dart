@@ -73,11 +73,11 @@ class NavPage extends ConsumerWidget {
 
             const BottomBarItem(
               inActiveItem: Icon(
-                Icons.collections_bookmark_outlined,
+                Icons.location_on_outlined,
                 color: Colors.blueGrey,
               ),
               activeItem: Icon(
-                Icons.collections_bookmark_outlined,
+                Icons.location_on_outlined,
                 color: Colors.blueAccent,
               ),
               itemLabel: 'Collection',

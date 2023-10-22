@@ -53,7 +53,7 @@ Future<Uint8List> getBytesFromAsset(String path) async {
       log(element.toString());
 
       
-final Uint8List markerIcon = await getBytesFromAsset('assets/img5.jpg');
+final Uint8List markerIcon = await getBytesFromAsset('assets/marker.png');
       log(markerIcon.toString());
       // markerbitmap =
       //     await BitmapDescriptor.fromAssetImage(

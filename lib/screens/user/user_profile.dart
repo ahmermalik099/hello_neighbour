@@ -78,10 +78,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             return Text('No data available');
           } else {
             final data = snapshot.data!.data();
+            userNameController.text = data?['userName'] ?? '';
             bioController.text = data?['bio'] ?? '';
             ageController.text = data?['age'] ?? '';
             cityController.text = data?['city'] ?? '';
-            userNameController.text = data?['userName'] ?? '';
             img = data?['pfp_url'] ?? '';
             String name = data?['name'] ?? 'User Name';
             String gender = data?['gender'] ?? ''; // Default gender
