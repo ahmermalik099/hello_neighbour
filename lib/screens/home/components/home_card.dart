@@ -21,6 +21,7 @@ class HomeCard extends StatelessWidget {
           Navigator.pushNamed(context, '/$route');
         },
         child: Container(
+          alignment: Alignment.center,
           height: MediaQuery.of(context).size.height * 0.3,
           width: MediaQuery.of(context).size.width * 0.4,
           decoration: BoxDecoration(

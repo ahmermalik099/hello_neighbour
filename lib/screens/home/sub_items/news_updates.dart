@@ -68,8 +68,90 @@ class NewsAndUpdatesScreen extends StatelessWidget {
             boxShadow: [BoxShadow(blurRadius: 3, color: Colors.grey)],
             onTap: (){}, // This disables tap event
           ),
+
           AnyLinkPreview(
-            link: "https://x.com/wizofecom/status/1706411308566950050?s=20",
+            link: "https://feedly.com/i/subscription/feed%2Fhttp%3A%2F%2Ffeeds.feedburner.com%2Fpalsolidarity",
+            displayDirection: UIDirection.uiDirectionHorizontal,
+            showMultimedia: false,
+            bodyMaxLines: 5,
+            bodyTextOverflow: TextOverflow.ellipsis,
+            titleStyle: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+            bodyStyle: TextStyle(color: Colors.grey, fontSize: 12),
+            errorBody: 'Show my custom error body',
+            errorTitle: 'Show my custom error title',
+            errorWidget: Container(
+              color: Colors.grey[300],
+              child: Text('Oops!'),
+            ),
+            errorImage: "https://google.com/",
+            cache: Duration(days: 7),
+            backgroundColor: Colors.grey[300],
+            borderRadius: 12,
+            removeElevation: false,
+            boxShadow: [BoxShadow(blurRadius: 3, color: Colors.grey)],
+            onTap: (){}, // This disables tap event
+          ),
+
+          AnyLinkPreview(
+            link: "https://www.bornfitness.com/what-is-a-calorie/",
+            displayDirection: UIDirection.uiDirectionHorizontal,
+            showMultimedia: false,
+            bodyMaxLines: 5,
+            bodyTextOverflow: TextOverflow.ellipsis,
+            titleStyle: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+            bodyStyle: TextStyle(color: Colors.grey, fontSize: 12),
+            errorBody: 'Show my custom error body',
+            errorTitle: 'Show my custom error title',
+            errorWidget: Container(
+              color: Colors.grey[300],
+              child: Text('Oops!'),
+            ),
+            errorImage: "https://google.com/",
+            cache: Duration(days: 7),
+            backgroundColor: Colors.grey[300],
+            borderRadius: 12,
+            removeElevation: false,
+            boxShadow: [BoxShadow(blurRadius: 3, color: Colors.grey)],
+            onTap: (){}, // This disables tap event
+          ),
+
+          AnyLinkPreview(
+            link: "https://www.bornfitness.com/how-to-fix-muscle-imbalances/",
+            displayDirection: UIDirection.uiDirectionHorizontal,
+            showMultimedia: false,
+            bodyMaxLines: 5,
+            bodyTextOverflow: TextOverflow.ellipsis,
+            titleStyle: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+            bodyStyle: TextStyle(color: Colors.grey, fontSize: 12),
+            errorBody: 'Show my custom error body',
+            errorTitle: 'Show my custom error title',
+            errorWidget: Container(
+              color: Colors.grey[300],
+              child: Text('Oops!'),
+            ),
+            errorImage: "https://google.com/",
+            cache: Duration(days: 7),
+            backgroundColor: Colors.grey[300],
+            borderRadius: 12,
+            removeElevation: false,
+            boxShadow: [BoxShadow(blurRadius: 3, color: Colors.grey)],
+            onTap: (){}, // This disables tap event
+          ),
+
+          AnyLinkPreview(
+            link: "https://www.bornfitness.com/sentenced-to-life/",
             displayDirection: UIDirection.uiDirectionHorizontal,
             showMultimedia: false,
             bodyMaxLines: 5,

@@ -53,7 +53,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
       markerbitmap =
       await BitmapDescriptor.fromAssetImage(
-          ImageConfiguration(size: Size(50, 50)), 'assets/img5.jpg'
+          ImageConfiguration(size: Size(50, 50)), 'assets/marker.png'
       );
       // log(dataBytes.toString()  );
 

@@ -33,7 +33,7 @@ class ShowcaseSliderCard extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      FirebaseAuth.instance.currentUser?.displayName ?? 'yee',
+                      FirebaseAuth.instance.currentUser?.displayName ?? ' ',
                       //'radcowboy',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
