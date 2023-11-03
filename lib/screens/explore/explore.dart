@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hello_neighbour/riverpod/markers/markers_provider.dart';
 import 'package:hello_neighbour/riverpod/refresh/refresh_provider.dart';
+import 'package:hello_neighbour/screens/explore/components/bottomsheet.dart';
 
 class ExploreScreen extends ConsumerWidget {
   ExploreScreen({super.key});
@@ -12,8 +13,8 @@ class ExploreScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var refresh = ref.watch(refreshProvider);
-    log("refresh: $refresh");
+    // var refresh = ref.watch(refreshProvider);
+    // log("refresh: $refresh");
     return Scaffold(
       body: Stack(
         children: [
@@ -32,6 +33,8 @@ class ExploreScreen extends ConsumerWidget {
                 );
               } else {
                 final markers = snapshot.data!;
+                log("Marker fethced in future builder: ${markers.length}");
+
                 return GoogleMap(
                   initialCameraPosition: CameraPosition(
                       target: LatLng(33.7077, 73.0498), zoom: 12),
@@ -102,6 +105,9 @@ class ExploreScreen extends ConsumerWidget {
               ],
             ),
           ),
+        
+          BottomSheetUser(),
+        
         ],
       ),
     );
