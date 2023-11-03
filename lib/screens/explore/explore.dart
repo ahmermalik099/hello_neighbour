@@ -7,134 +7,31 @@ import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hello_neighbour/riverpod/markers.dart';
 import 'package:hello_neighbour/services/fire_store.dart';
 import 'package:http/http.dart' as http;
 import 'package:marker_icon/marker_icon.dart';
 
 
 
-class ExploreScreen extends StatefulWidget {
+class ExploreScreen extends ConsumerWidget {
   ExploreScreen({super.key});
 
-  @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
-}
-
-class _ExploreScreenState extends State<ExploreScreen> {
   late GoogleMapController mapController;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    prepareMarkers();
-  }
 
-  //   Future<Uint8List> downloadAndConvertImage(String imageUrl) async {
-  //   final response = await http.get(Uri.parse(imageUrl));
-
-  //   if (response.statusCode == 200) {
-  //     final bytes = response.bodyBytes;
-
-  //     // You can use the image package to decode the image
-  //     final image = img.decodeImage(Uint8List.fromList(bytes));
-
-  //     // You can save the image in the desired format (JPEG or PNG) if needed
-  //     // img.encodeJpg(image); for JPEG
-  //     // img.encodePng(image); for PNG
-
-  //     return bytes;
-  //   } else {
-  //     throw Exception('Failed to download the image');
-  //   }
-  // }
-
-  Future<Uint8List> getBytesFromAsset(String path) async {
-    double pixelRatio = MediaQuery.of(context).devicePixelRatio;
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: pixelRatio.round() * 30);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
-  }
-
-  void prepareMarkers() async {
-    // fetch all users from firebase
-    log('heyyyyyyyyyyyyyyyyyyyyyy');
-
-    List<dynamic> users = await FirestoreService().getUsers();
-    log('heyyyyyyyyyyyyyyyyyyyyyy');
-    log(users.length.toString());
-    users.forEach((element) async {
-      // add marker for each user
-
-      log(users.length.toString());
-
-      log(element.toString());
-      log(element['pfp_url'].toString());
-
-      final Uint8List markerIcon = await getBytesFromAsset('assets/marker.png');
-      log(markerIcon.toString());
-      // markerbitmap =
-      //     await BitmapDescriptor.fromAssetImage(
-      //         ImageConfiguration(size: Size(50, 50)),'assets/img5.jpg'
-      //     );
-      // log(dataBytes.toString()  );
-
-      BitmapDescriptor markerUser =
-          await MarkerIcon.downloadResizePictureCircle(
-              element!['pfp_url'] ?? "https://i0.wp.com/thegeekiary.com/wp-content/uploads/2022/12/bleach-blades.jpg?resize=620%2C435&ssl=1",
-              size: 175,
-              addBorder: true,
-              borderColor: Colors.white,
-              borderSize: 24);
-
-      markers.add(
-        Marker(
-          markerId: MarkerId(
-            element['userName'] ?? '',
-          ),
-          position: LatLng(
-            double.parse(element['lat'] ?? 33.7077),
-            double.parse(element['long'] ?? 73.0498),
-          ),
-          icon: markerUser,
-          onTap: () {
-            // static profile screen
-            Navigator.pushNamed(context, '/userDetails', arguments: element);
-          },
-        ),
-      );
-
-      // markers.add(Marker(
-      //   //add start location marker
-      //   markerId: MarkerId(element['userName'] ?? ''),
-      //   position: LatLng(double.parse(element['lat'] ?? 33.7077),
-      //       double.parse(element['long'] ?? 73.0498)), //posi\ion of marker
-      //   infoWindow: InfoWindow(
-      //     //popup info
-      //       title: element['userName'] ?? '',
-      //       snippet: 'Click for details',
-      //       onTap: () {
-      //         // static profile screen
-      //         Navigator.pushNamed(context, '/userDetails', arguments: element);
-      //       }),
-      //   icon: BitmapDescriptor.fromBytes(markerIcon), //Icon for Marker
-      // ));
-
-      setState(() {});
-    });
-
-    setState(() {});
-  }
-
-  late BitmapDescriptor markerbitmap;
   Set<Marker> markers = Set();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // only 1 time, when the widget is created
+    var markers = ref.watch(markersProvider); // markers var is set of markers
+    ref.read(markersProvider.notifier).getMarkers(context);
+    log("Build method is called");
+    log(markers.length.toString());
+    log(markers.toString());
+
     return Scaffold(
       body: Stack(
         children: [
@@ -193,6 +90,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   },
                   child: Icon(Icons.remove),
                 ),
+              FloatingActionButton(
+                  heroTag: "Recall Markers",
+                  onPressed: () async {
+                    log("Recall Markers");
+                    ref.read(markersProvider.notifier).getMarkers(context);
+                  },
+                  child: Icon(Icons.remove),
+                ),
+              
               ],
             ),
           ),
@@ -201,4 +107,5 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 }
+
 // Custom zoom buttons

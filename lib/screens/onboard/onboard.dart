@@ -16,6 +16,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
+    // stack empty
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => NavPage()),
     );
