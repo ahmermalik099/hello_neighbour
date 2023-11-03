@@ -10,6 +10,9 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hello_neighbour/services/fire_store.dart';
 import 'package:http/http.dart' as http;
+import 'package:marker_icon/marker_icon.dart';
+
+
 
 class ExploreScreen extends StatefulWidget {
   ExploreScreen({super.key});
@@ -27,15 +30,34 @@ class _ExploreScreenState extends State<ExploreScreen> {
     prepareMarkers();
   }
 
-Future<Uint8List> getBytesFromAsset(String path) async {
+  //   Future<Uint8List> downloadAndConvertImage(String imageUrl) async {
+  //   final response = await http.get(Uri.parse(imageUrl));
+
+  //   if (response.statusCode == 200) {
+  //     final bytes = response.bodyBytes;
+
+  //     // You can use the image package to decode the image
+  //     final image = img.decodeImage(Uint8List.fromList(bytes));
+
+  //     // You can save the image in the desired format (JPEG or PNG) if needed
+  //     // img.encodeJpg(image); for JPEG
+  //     // img.encodePng(image); for PNG
+
+  //     return bytes;
+  //   } else {
+  //     throw Exception('Failed to download the image');
+  //   }
+  // }
+
+  Future<Uint8List> getBytesFromAsset(String path) async {
     double pixelRatio = MediaQuery.of(context).devicePixelRatio;
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(
-        data.buffer.asUint8List(),
-        targetWidth: pixelRatio.round() * 30
-    );
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: pixelRatio.round() * 30);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 
   void prepareMarkers() async {
@@ -51,9 +73,9 @@ Future<Uint8List> getBytesFromAsset(String path) async {
       log(users.length.toString());
 
       log(element.toString());
+      log(element['pfp_url'].toString());
 
-      
-final Uint8List markerIcon = await getBytesFromAsset('assets/marker.png');
+      final Uint8List markerIcon = await getBytesFromAsset('assets/marker.png');
       log(markerIcon.toString());
       // markerbitmap =
       //     await BitmapDescriptor.fromAssetImage(
@@ -61,24 +83,48 @@ final Uint8List markerIcon = await getBytesFromAsset('assets/marker.png');
       //     );
       // log(dataBytes.toString()  );
 
-      markers.add(Marker(
-        //add start location marker
-        markerId: MarkerId(element['userName'] ?? ''),
-        position: LatLng(double.parse(element['lat'] ?? 33.7077),
-            double.parse(element['long'] ?? 73.0498)), //posi\ion of marker
-        infoWindow: InfoWindow(
-          //popup info
-            title: element['userName'] ?? '',
-            snippet: 'Click for details',
-            onTap: () {
-              // static profile screen
-              Navigator.pushNamed(context, '/userDetails', arguments: element);
-            }),
-        icon: BitmapDescriptor.fromBytes(markerIcon), //Icon for Marker
-      ));
+      BitmapDescriptor markerUser =
+          await MarkerIcon.downloadResizePictureCircle(
+              element!['pfp_url'] ?? "https://i0.wp.com/thegeekiary.com/wp-content/uploads/2022/12/bleach-blades.jpg?resize=620%2C435&ssl=1",
+              size: 175,
+              addBorder: true,
+              borderColor: Colors.white,
+              borderSize: 24);
 
-          setState(() {});
+      markers.add(
+        Marker(
+          markerId: MarkerId(
+            element['userName'] ?? '',
+          ),
+          position: LatLng(
+            double.parse(element['lat'] ?? 33.7077),
+            double.parse(element['long'] ?? 73.0498),
+          ),
+          icon: markerUser,
+          onTap: () {
+            // static profile screen
+            Navigator.pushNamed(context, '/userDetails', arguments: element);
+          },
+        ),
+      );
 
+      // markers.add(Marker(
+      //   //add start location marker
+      //   markerId: MarkerId(element['userName'] ?? ''),
+      //   position: LatLng(double.parse(element['lat'] ?? 33.7077),
+      //       double.parse(element['long'] ?? 73.0498)), //posi\ion of marker
+      //   infoWindow: InfoWindow(
+      //     //popup info
+      //       title: element['userName'] ?? '',
+      //       snippet: 'Click for details',
+      //       onTap: () {
+      //         // static profile screen
+      //         Navigator.pushNamed(context, '/userDetails', arguments: element);
+      //       }),
+      //   icon: BitmapDescriptor.fromBytes(markerIcon), //Icon for Marker
+      // ));
+
+      setState(() {});
     });
 
     setState(() {});
@@ -94,7 +140,7 @@ final Uint8List markerIcon = await getBytesFromAsset('assets/marker.png');
         children: [
           GoogleMap(
             initialCameraPosition:
-            CameraPosition(target: LatLng(33.7077, 73.0498), zoom: 12),
+                CameraPosition(target: LatLng(33.7077, 73.0498), zoom: 12),
             myLocationEnabled: true,
             tiltGesturesEnabled: false,
             compassEnabled: true,
@@ -114,7 +160,7 @@ final Uint8List markerIcon = await getBytesFromAsset('assets/marker.png');
               children: [
                 FloatingActionButton(
                   heroTag: "zoomIn",
-                  onPressed: () async{
+                  onPressed: () async {
                     var currentZoomLevel = await mapController.getZoomLevel();
 
                     currentZoomLevel = currentZoomLevel + 1;
@@ -132,7 +178,7 @@ final Uint8List markerIcon = await getBytesFromAsset('assets/marker.png');
                 SizedBox(height: 8),
                 FloatingActionButton(
                   heroTag: "zoomOut",
-                  onPressed: () async{
+                  onPressed: () async {
                     var currentZoomLevel = await mapController.getZoomLevel();
 
                     currentZoomLevel = currentZoomLevel - 1;
