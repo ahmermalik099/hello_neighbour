@@ -1,54 +1,54 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hello_neighbour/riverpod/markers.dart';
-import 'package:hello_neighbour/services/fire_store.dart';
-import 'package:http/http.dart' as http;
-import 'package:marker_icon/marker_icon.dart';
-
-
+import 'package:hello_neighbour/riverpod/markers/markers_provider.dart';
+import 'package:hello_neighbour/riverpod/refresh/refresh_provider.dart';
 
 class ExploreScreen extends ConsumerWidget {
   ExploreScreen({super.key});
 
   late GoogleMapController mapController;
 
-  Set<Marker> markers = Set();
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // only 1 time, when the widget is created
-    var markers = ref.watch(markersProvider); // markers var is set of markers
-    ref.read(markersProvider.notifier).getMarkers(context);
-    log("Build method is called");
-    log(markers.length.toString());
-    log(markers.toString());
-
+    var refresh = ref.watch(refreshProvider);
+    log("refresh: $refresh");
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            initialCameraPosition:
-                CameraPosition(target: LatLng(33.7077, 73.0498), zoom: 12),
-            myLocationEnabled: true,
-            tiltGesturesEnabled: false,
-            compassEnabled: true,
-            scrollGesturesEnabled: true,
-            zoomGesturesEnabled: true,
-            zoomControlsEnabled: false,
-            onMapCreated: (controller) {
-              // Access the map controller here.
-              mapController = controller;
+          FutureBuilder<Set<Marker>>(
+            future: ref.read(markersProvider.notifier).getMarkers(context),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child:
+                      CircularProgressIndicator(), // Show a loading indicator.
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                      'Error: ${snapshot.error}'), // Handle the error state.
+                );
+              } else {
+                final markers = snapshot.data!;
+                return GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(33.7077, 73.0498), zoom: 12),
+                  myLocationEnabled: true,
+                  tiltGesturesEnabled: false,
+                  compassEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
+                  zoomControlsEnabled: false,
+                  onMapCreated: (controller) {
+                    // Access the map controller here.
+                    mapController = controller;
+                  },
+                  markers: markers,
+                );
+              }
             },
-            markers: markers,
           ),
           Positioned(
             top: 16,
@@ -90,15 +90,15 @@ class ExploreScreen extends ConsumerWidget {
                   },
                   child: Icon(Icons.remove),
                 ),
-              FloatingActionButton(
+                SizedBox(height: 8),
+                FloatingActionButton(
                   heroTag: "Recall Markers",
                   onPressed: () async {
                     log("Recall Markers");
-                    ref.read(markersProvider.notifier).getMarkers(context);
+                    ref.read(refreshProvider.notifier).refresh();
                   },
-                  child: Icon(Icons.remove),
+                  child: Icon(Icons.refresh),
                 ),
-              
               ],
             ),
           ),

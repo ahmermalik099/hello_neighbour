@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hello_neighbour/riverpod/provider.dart';
+import 'package:hello_neighbour/riverpod/navbar_controller/navbar_cont_provider.dart';
+import 'package:hello_neighbour/riverpod/page_controller/page_cont_provider.dart';
 
 class ShowcaseSliderCard extends ConsumerWidget {
   const ShowcaseSliderCard({super.key});
